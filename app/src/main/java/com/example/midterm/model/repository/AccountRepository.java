@@ -2,6 +2,8 @@ package com.example.midterm.model.repository;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData; // Thêm import này
+
 import com.example.midterm.model.data.local.AccountDAO;
 import com.example.midterm.model.data.local.AppDatabase;
 import com.example.midterm.model.data.local.OrganizerDAO;
@@ -46,7 +48,8 @@ public class AccountRepository {
         String hashedPassword = HashPassword.hashPassword(password);
         return accountDAO.login(email, hashedPassword);
     }
-    public List<Account> getAllAccounts() {
+    // Đã sửa kiểu trả về thành LiveData<List<Account>>
+    public LiveData<List<Account>> getAllAccounts() {
         return accountDAO.getAllAccounts();
     }
     // Đăng ký tài khoản (return true nếu đăng ký thành công)

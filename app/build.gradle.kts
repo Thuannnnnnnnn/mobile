@@ -88,5 +88,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // 3. Thanh toán (Ví dụ ZaloPay SDK hoặc Stripe - Ở đây demo ZaloPay Sandbox cho VN)
-    implementation("vn.zalopay.sdk:zalopay-sdk:2.1.0")
+//    implementation("vn.zalopay.sdk:zalopay-sdk:2.1.0")
 }

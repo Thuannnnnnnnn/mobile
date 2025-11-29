@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import androidx.room.Delete;
+import androidx.lifecycle.LiveData; // Thêm import này
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface AccountDAO {
     Account login(String input, String password);
 
     @Query("SELECT * FROM accounts")
-    List<Account> getAllAccounts();
+    LiveData<List<Account>> getAllAccounts(); // Thay đổi kiểu trả về
 
     @Query("SELECT * FROM accounts WHERE id = :id LIMIT 1")
     Account getAccountById(int id);

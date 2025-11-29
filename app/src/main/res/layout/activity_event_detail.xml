@@ -207,9 +207,10 @@
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textStyle="bold" />
 
+            <!-- Set a fixed height for the map -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="200dp" <!-- Set a fixed height for the map -->
+                android:layout_height="200dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
 

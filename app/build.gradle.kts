@@ -48,6 +48,7 @@ dependencies {
         "exclude" to listOf("")
     )))
     implementation(libs.firebase.database)
+    implementation(libs.lifecycle.viewmodel)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

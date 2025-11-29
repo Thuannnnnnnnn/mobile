@@ -5,13 +5,14 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+import androidx.room.OnConflictStrategy; // Import OnConflictStrategy
 
 import com.example.midterm.model.entity.UserProfile;
 
 
 @Dao
 public interface UserProfileDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Đã thêm onConflict = OnConflictStrategy.REPLACE
     void insert(UserProfile userProfile);
 
     @Update

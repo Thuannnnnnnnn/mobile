@@ -8,13 +8,14 @@ import androidx.room.Query;
 import androidx.room.Update;
 import androidx.room.Delete;
 import androidx.lifecycle.LiveData; // Thêm import này
+import androidx.room.OnConflictStrategy; // Import OnConflictStrategy
 
 import java.util.List;
 
 @Dao
 public interface AccountDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // Đã thêm onConflict = OnConflictStrategy.REPLACE
     long insert(Account account);
 
     @Update
@@ -43,6 +44,9 @@ public interface AccountDAO {
 
     @Query("UPDATE accounts SET role = :role WHERE id = :accountId")
     void updateRole(int accountId, String role);
+
+    @Query("UPDATE accounts SET password = :newPassword WHERE id = :userId")
+    void changePassword(int userId, String newPassword); // Thêm phương thức này
 
     @Query("SELECT COUNT(*) FROM accounts")
     int getAccountCount();

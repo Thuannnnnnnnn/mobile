@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "854024477513",
-    "project_id": "eventbookingapp-f4532",
-    "storage_bucket": "eventbookingapp-f4532.firebasestorage.app"
+    "project_number": "920034781309",
+    "firebase_url": "https://myapplication-183fd281-default-rtdb.firebaseio.com",
+    "project_id": "myapplication-183fd281",
+    "storage_bucket": "myapplication-183fd281.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:854024477513:android:ef7c7f71088dc698369898",
+        "mobilesdk_app_id": "1:920034781309:android:137a1b8a5fb1f3a7d2a914",
         "android_client_info": {
           "package_name": "com.example.midterm"
         }
@@ -15,7 +16,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD2_b-RgRj57EFkXJUT5JEFvMTTKGhpINg"
+          "current_key": "AIzaSyC-2vm854mx1XA_tEU0KM6YXgzPSnSutNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920034781309:android:3589a961a4d1e10dd2a914",
+        "android_client_info": {
+          "package_name": "com.tdtu.moblie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-2vm854mx1XA_tEU0KM6YXgzPSnSutNk"
         }
       ],
       "services": {

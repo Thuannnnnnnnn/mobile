@@ -9,22 +9,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider; // Cần thêm import này
 
 import com.example.midterm.R;
-import com.example.midterm.model.data.local.AppDatabase;
-import com.example.midterm.model.entity.Ticket;
+import com.example.midterm.viewModel.TicketViewModel; // Import ViewModel
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class QRScannerActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST = 100;
     private DecoratedBarcodeView barcodeView;
     private boolean isScanning = true;
-    private AppDatabase db; // Khai báo Database
+
+    // Sửa: Dùng ViewModel thay vì AppDatabase trực tiếp
+    private TicketViewModel ticketViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +37,15 @@ public class QRScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qr_scanner);
 
         barcodeView = findViewById(R.id.barcode_scanner);
-        db = AppDatabase.getInstance(getApplicationContext()); // Khởi tạo Database
+
+        // Khởi tạo ViewModel
+        ticketViewModel = new ViewModelProvider(this).get(TicketViewModel.class);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Quét mã QR Check-in");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Kiểm tra quyền camera
         if (checkCameraPermission()) {
             startScanning();
         } else {
@@ -66,8 +72,7 @@ public class QRScannerActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startScanning();
             } else {
-                Toast.makeText(this, "Cần quyền truy cập camera để quét QR code",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Cần quyền camera để quét vé!", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -78,45 +83,40 @@ public class QRScannerActivity extends AppCompatActivity {
             @Override
             public void barcodeResult(BarcodeResult result) {
                 if (result != null && isScanning) {
-                    isScanning = false; // Dừng quét tạm thời để xử lý
+                    isScanning = false;
                     handleQRCodeScanned(result.getText());
                 }
             }
 
             @Override
-            public void possibleResultPoints(List<ResultPoint> resultPoints) {
-            }
+            public void possibleResultPoints(List<ResultPoint> resultPoints) {}
         });
     }
 
-    private void handleQRCodeScanned(String scannedCode) {
-        // Pause scanning
+    private void handleQRCodeScanned(String qrCode) {
         barcodeView.pause();
 
+        // Lấy thời gian check-in hiện tại
+        String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
         new Thread(() -> {
-            // 1. Tìm vé trong Database
-            Ticket ticket = db.ticketDAO().getTicketByQr(scannedCode);
+            // GỌI VIEWMODEL (Code chuẩn):
+            // Hàm này trong TicketViewModel đã xử lý logic:
+            // 1. Tìm vé -> 2. Check trạng thái -> 3. Update thành 'checked_in'
+            boolean isSuccess = ticketViewModel.checkInTicketByQrCode(qrCode, currentDateTime);
 
             runOnUiThread(() -> {
-                if (ticket == null) {
-                    // Vé không tồn tại
-                    Toast.makeText(this, "Vé không hợp lệ!", Toast.LENGTH_SHORT).show();
+                if (isSuccess) {
+                    // Check-in thành công
+                    Toast.makeText(QRScannerActivity.this, "✅ Check-in THÀNH CÔNG!", Toast.LENGTH_SHORT).show();
+                    // (Optional) Phát âm thanh "Beep" thành công tại đây
                 } else {
-                    if ("used".equals(ticket.status)) {
-                        // Vé đã dùng rồi
-                        Toast.makeText(this, "Cảnh báo: Vé này ĐÃ ĐƯỢC SỬ DỤNG trước đó!", Toast.LENGTH_LONG).show();
-                        // TODO: playSound(R.raw.error_sound);
-                    } else {
-                        // Vé hợp lệ -> Cập nhật trạng thái
-                        ticket.status = "used";
-                        new Thread(() -> db.ticketDAO().updateTicket(ticket)).start();
-
-                        Toast.makeText(this, "Check-in THÀNH CÔNG! Xin mời vào.", Toast.LENGTH_SHORT).show();
-                        // TODO: Hiển thị thông tin khách hàng lên màn hình để đối chiếu
-                        // showTicketInfoDialog(ticket);
-                    }
+                    // Thất bại (Vé giả hoặc Vé đã dùng rồi)
+                    Toast.makeText(QRScannerActivity.this, "❌ LỖI: Vé không hợp lệ hoặc đã dùng!", Toast.LENGTH_LONG).show();
+                    // (Optional) Phát âm thanh báo lỗi tại đây
                 }
-                // Reset lại scanner để quét người tiếp theo sau 2 giây
+
+                // Quét tiếp sau 2 giây
                 barcodeView.postDelayed(() -> {
                     isScanning = true;
                     barcodeView.resume();

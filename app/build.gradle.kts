@@ -54,15 +54,15 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.androidx.lifecycle.viewmodel)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
+    // 1. Firebase (BOM để quản lý version)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0")) // Cập nhật phiên bản BOM
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-storage")
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-firestore") // Database Realtime mới
+    implementation("com.google.firebase:firebase-auth") // Đăng nhập
+    implementation("com.google.firebase:firebase-storage") // Giữ lại từ cấu hình cũ
+    implementation("com.google.firebase:firebase-messaging") // Giữ lại từ cấu hình cũ
 
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
@@ -77,4 +77,11 @@ dependencies {
     // QR Code Generation
     implementation("com.google.zxing:core:3.5.2")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    // 2. Google Maps
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // 3. Thanh toán (Ví dụ ZaloPay SDK hoặc Stripe - Ở đây demo ZaloPay Sandbox cho VN)
+    implementation("vn.zalopay.sdk:zalopay-sdk:2.1.0")
 }

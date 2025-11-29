@@ -19,6 +19,7 @@ import com.example.midterm.model.WeatherInfo;
 import com.example.midterm.service.WeatherService;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -52,7 +53,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EventDetail extends AppCompatActivity {
+// Thêm các import cho Google Maps
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import android.location.Geocoder;
+
+public class EventDetail extends AppCompatActivity implements OnMapReadyCallback {
 
     private int currentEventId;
     private int currentUserId;
@@ -90,6 +100,10 @@ public class EventDetail extends AppCompatActivity {
     private RatingBar ratingBarAvg;
     private TextView tvReviewCount;
 
+    // Biến cho Google Map
+    private GoogleMap mMap;
+    private String eventAddress;
+
     private final SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
     private final SimpleDateFormat displayDateFormat = new SimpleDateFormat("EEE, dd MMM, yyyy • h:mm a", new Locale("vi", "VN"));
     private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
@@ -119,6 +133,16 @@ public class EventDetail extends AppCompatActivity {
 
         observeData(currentEventId);
         loadReviews(currentEventId);
+
+        // Khởi tạo Map Fragment và đăng ký callback
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapFragment); // Đảm bảo R.id.mapFragment tồn tại trong layout
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        } else {
+            // Log hoặc thông báo lỗi nếu mapFragment không tìm thấy
+            Toast.makeText(this, "Map fragment not found in layout.", Toast.LENGTH_LONG).show();
+        }
 
         // Mở Google Maps khi click vào địa chỉ
         tvEventLocation.setOnClickListener(v -> {
@@ -285,6 +309,9 @@ public class EventDetail extends AppCompatActivity {
         tvEventLocation.setText(event.getLocation());
         tvEventDescription.setText(event.getDescription());
 
+        // Gán địa chỉ sự kiện cho biến eventAddress
+        eventAddress = event.getLocation();
+
         Glide.with(this)
                 .load(event.getBannerUrl())
                 .centerCrop()
@@ -305,6 +332,39 @@ public class EventDetail extends AppCompatActivity {
         if (event.getLocation() != null && !event.getLocation().isEmpty()) {
             fetchWeatherForLocation(event.getLocation());
         }
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Chuyển đổi địa chỉ String thành Tọa độ (Geocoding)
+        LatLng eventLocation = getLocationFromAddress(eventAddress);
+
+        if (eventLocation != null) {
+            mMap.addMarker(new MarkerOptions().position(eventLocation).title("Vị trí sự kiện"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 15f));
+        } else {
+            Toast.makeText(this, "Không thể tìm thấy vị trí sự kiện trên bản đồ.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private LatLng getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(this, Locale.getDefault());
+        List<android.location.Address> address;
+        LatLng p1 = null;
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null || address.isEmpty()) {
+                return null;
+            }
+            android.location.Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Toast.makeText(this, "Lỗi geocoding: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return p1;
     }
 
     private void fetchWeatherForLocation(String location) {

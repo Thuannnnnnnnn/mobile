@@ -16,9 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Add this line for the ZaloPay SDK
+        maven { url = uri("https://repo.zalopay.vn/repository/maven-public/") }
     }
 }
 
 rootProject.name = "midTerm"
 include(":app")
- 

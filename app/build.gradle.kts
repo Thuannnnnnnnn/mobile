@@ -42,6 +42,11 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.circleImageview)
     implementation(libs.androidx.fragment)
+    implementation(fileTree(mapOf(
+        "dir" to "C:\\Users\\Thuan\\OneDrive\\Desktop\\New folder",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Toolbar -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/angle_small_left"
+                app:tint="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Giao diện"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Section: Chế độ giao diện -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chế độ giao diện"
+                android:textColor="#757575"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
+
+                <RadioGroup
+                    android:id="@+id/radio_group_theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_horizontal"
+                    android:showDividers="middle">
+
+                    <!-- Light mode -->
+                    <RadioButton
+                        android:id="@+id/radio_light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sáng"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:button="@null"
+                        android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                        android:background="?attr/selectableItemBackground" />
+
+                    <!-- Dark mode -->
+                    <RadioButton
+                        android:id="@+id/radio_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tối"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:button="@null"
+                        android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                        android:background="?attr/selectableItemBackground" />
+
+                    <!-- System default -->
+                    <RadioButton
+                        android:id="@+id/radio_system"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Theo hệ thống"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:button="@null"
+                        android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                        android:background="?attr/selectableItemBackground"
+                        android:checked="true" />
+
+                </RadioGroup>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section: Màu chủ đạo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Màu chủ đạo"
+                android:textColor="#757575"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <!-- Color option 1: Blue -->
+                    <View
+                        android:id="@+id/color_blue"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_selector"
+                        android:backgroundTint="#2196F3"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <!-- Color option 2: Red -->
+                    <View
+                        android:id="@+id/color_red"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_selector"
+                        android:backgroundTint="#F44336"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <!-- Color option 3: Green -->
+                    <View
+                        android:id="@+id/color_green"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_selector"
+                        android:backgroundTint="#4CAF50"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <!-- Color option 4: Purple -->
+                    <View
+                        android:id="@+id/color_purple"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_selector"
+                        android:backgroundTint="#9C27B0"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <!-- Color option 5: Orange -->
+                    <View
+                        android:id="@+id/color_orange"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_selector"
+                        android:backgroundTint="#FF9800"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section: Tùy chỉnh -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tùy chỉnh"
+                android:textColor="#757575"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_horizontal"
+                    android:showDividers="middle">
+
+                    <!-- Font size -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cỡ chữ"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp" />
+
+                        <SeekBar
+                            android:id="@+id/seekbar_font_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:max="4"
+                            android:progress="2" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="4dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Nhỏ"
+                                android:textColor="#757575"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Lớn"
+                                android:textColor="#757575"
+                                android:textSize="12sp"
+                                android:gravity="end" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Animations -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hiệu ứng chuyển động"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_animations"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:checked="true" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

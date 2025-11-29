@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".view.fragment.ManageSeatFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/management_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:contentPadding="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tổng số"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_total_seats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2000"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Đã bán"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_booked_seats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1550"
+                            android:textColor="#FF9800"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Còn trống"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_available_seats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="450"
+                            android:textColor="#4CAF50"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_select_zone_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Chi tiết theo khu vực"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_stats" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_zone_selector"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_zone_title">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actv_seat_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn Loại vé / Khu vực"
+                    android:inputType="none"
+                    android:text="VIP Zone A (500,000 VND)"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_stage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#757575"
+                android:padding="8dp"
+                android:text="SÂN KHẤU/MÀN HÌNH"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/input_zone_selector"
+                app:layout_constraintTop_toBottomOf="@id/input_zone_selector" />
+
+            <LinearLayout
+                android:id="@+id/legend_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_stage"
+                app:layout_constraintTop_toBottomOf="@id/tv_stage">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/seat_available_bg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="Còn trống (400)"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/seat_booked_bg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="Đã bán (100)"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/legend_layout"
+                app:layout_constraintTop_toBottomOf="@id/legend_layout">
+
+                <GridLayout
+                    android:id="@+id/seat_map_grid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="10"
+                    android:columnOrderPreserved="false"
+                    android:padding="8dp"
+                    android:useDefaultMargins="true">
+
+                    <Button
+                        style="@style/SeatButtonManager"
+                        android:backgroundTint="#4CAF50"
+                        android:text="A1" />
+
+                    <Button
+                        style="@style/SeatButtonManager"
+                        android:backgroundTint="#BDBDBD"
+                        android:text="A2" />
+
+                    <Button
+                        style="@style/SeatButtonManager"
+                        android:backgroundTint="#4CAF50"
+                        android:text="A3" />
+
+                    <Button
+                        style="@style/SeatButtonManager"
+                        android:backgroundTint="#BDBDBD"
+                        android:text="A4" />
+
+                </GridLayout>
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/management_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="8dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_action_tip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nhấn vào ghế để xem chi tiết hoặc khóa/mở khóa thủ công."
+            android:textColor="#757575"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_edit_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_edit_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FF9800"
+
+            android:drawableTint="@android:color/white"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="CHỈNH SỬA BỐ CỤC"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--        android:drawableStart="@drawable/edit_icon"-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

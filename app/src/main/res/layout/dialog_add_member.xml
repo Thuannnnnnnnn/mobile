@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Tên thành viên"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_member_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số điện thoại (tùy chọn)"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_member_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

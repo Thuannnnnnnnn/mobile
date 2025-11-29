@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/dashboard_interface"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/nav_events"
+        android:icon="@drawable/event"
+        android:title="Sự kiện" />
+    <item
+        android:id="@+id/nav_analytics"
+        android:icon="@drawable/analytics"
+        android:title="Thống kê" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/settings"
+        android:title="Cài đặt" />
+</menu>

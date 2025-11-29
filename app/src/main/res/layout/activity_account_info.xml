@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".view.AccountInfoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingTop="32dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Quay lại"
+            android:src="@drawable/arrow__1_"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông tin Tài khoản"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/catlogo_removebg_preview"
+                app:civ_border_color="#4CAF50"
+                app:civ_border_width="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_edit_avatar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="-28dp"
+                android:backgroundTint="#4CAF50"
+                android:contentDescription="Đổi Avatar"
+                android:padding="6dp"
+                android:src="@drawable/pen"
+                app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+                app:layout_constraintStart_toEndOf="@+id/img_avatar" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_fullname"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_avatar"
+                app:startIconDrawable="@drawable/user__1_">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_user_fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Họ và Tên"
+                    android:inputType="textPersonName|textCapWords"
+                    android:text="Nguyễn Văn A" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/input_fullname"
+                app:layout_constraintStart_toStartOf="@+id/input_fullname"
+                app:layout_constraintTop_toBottomOf="@id/input_fullname"
+                app:startIconDrawable="@drawable/email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:text="nguyena@example.com" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_phone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/input_email"
+                app:layout_constraintStart_toStartOf="@+id/input_email"
+                app:layout_constraintTop_toBottomOf="@id/input_email"
+                app:startIconDrawable="@drawable/phone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_user_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số điện thoại"
+                    android:inputType="phone"
+                    android:text="090-xxx-xxxx" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_dob"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="@+id/input_phone"
+                app:layout_constraintStart_toStartOf="@+id/input_phone"
+                app:layout_constraintTop_toBottomOf="@id/input_phone"
+                app:startIconDrawable="@drawable/calendar__2_">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_user_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Ngày sinh"
+                    android:text="01/01/1990" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_gender_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Giới tính"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/input_dob"
+                app:layout_constraintTop_toBottomOf="@id/input_dob" />
+
+            <RadioGroup
+                android:id="@+id/rg_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/tv_gender_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_gender_title">
+
+                <RadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:buttonTint="#4CAF50"
+                    android:checked="true"
+                    android:text="Nam" />
+
+                <RadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:buttonTint="#4CAF50"
+                    android:text="Nữ" />
+
+                <RadioButton
+                    android:id="@+id/rb_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#4CAF50"
+                    android:text="Khác" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btn_save_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#4CAF50"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="LƯU HỒ SƠ"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rg_gender" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

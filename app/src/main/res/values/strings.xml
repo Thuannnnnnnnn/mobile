@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ticket box</string>
+    <string name="terms_and_conditions">Bằng việc tiếp tục, bạn đã đọc và đồng ý với \
+        &lt;font color=\'#4CAF50\'&gt;Điều khoản sử dụng&lt;/font&gt; và \
+        &lt;font color=\'#4CAF50\'&gt;Chính sách bảo mật thông tin cá nhân&lt;/font&gt; của Ticketbox.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

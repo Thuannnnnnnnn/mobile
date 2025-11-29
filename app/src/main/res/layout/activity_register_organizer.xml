@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:background="#F5F5F5"
+    tools:context=".view.RegisterOrganizer">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4CAF50"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Quay lại"
+            android:src="@drawable/arrow__1_"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký Trở thành Tổ chức"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/btn_back"
+            app:layout_constraintTop_toBottomOf="@+id/btn_back" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/catlogo_removebg_preview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_alert_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:text="⚠️ Lưu ý: Hồ sơ này sẽ được gửi đi để xét duyệt. Bạn sẽ nhận được thông báo khi trạng thái thay đổi."
+                android:textColor="#F44336"
+                android:background="#FFCDD2"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_logo_picker"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/unnamed_removebg_preview"
+                app:civ_border_color="#4CAF50"
+                app:civ_border_width="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_alert_message" />
+
+            <TextView
+                android:id="@+id/tv_logo_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Logo Tổ chức (Nhấn để chọn)"
+                android:textColor="#757575"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_logo_picker" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_organizer_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_logo_label"
+                app:startIconDrawable="@drawable/company_vision">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_organizer_register_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên Công ty/Tổ chức (Bắt buộc)"
+                    android:inputType="textCapWords"
+                    android:textColor="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvErrorOrganizerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/input_organizer_name"
+                app:layout_constraintTop_toBottomOf="@+id/input_organizer_name" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tvErrorOrganizerName"
+                app:layout_constraintTop_toBottomOf="@+id/tvErrorOrganizerName"
+                app:startIconDrawable="@drawable/email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_organizer_register_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email "
+                    android:inputType="textEmailAddress"
+                    android:textColor="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvErrorOrganizerEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/input_email"
+                app:layout_constraintTop_toBottomOf="@+id/input_email" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_phone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tvErrorOrganizerEmail"
+                app:layout_constraintTop_toBottomOf="@+id/tvErrorOrganizerEmail"
+                app:startIconDrawable="@drawable/phone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_organizer_register_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số điện thoại "
+                    android:inputType="phone"
+                    android:textColor="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvErrorOrganizerPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/input_phone"
+                app:layout_constraintTop_toBottomOf="@+id/input_phone" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tvErrorOrganizerPhone"
+                app:layout_constraintTop_toBottomOf="@+id/tvErrorOrganizerPhone"
+                app:startIconDrawable="@drawable/location"
+                app:startIconTint="#757575">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_organizer_register_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Địa chỉ (Bắt buộc)"
+                    android:inputType="textPostalAddress"
+                    android:textColor="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvErrorOrganizerAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/input_address"
+                app:layout_constraintTop_toBottomOf="@+id/input_address" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_website"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tvErrorOrganizerAddress"
+                app:layout_constraintTop_toBottomOf="@+id/tvErrorOrganizerAddress"
+                app:startIconDrawable="@drawable/website"
+                app:startIconTint="#757575">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_organizer_register_website"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Website (Tùy chọn)"
+                    android:inputType="textUri"
+                    android:textColor="#757575" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/input_website"
+                app:layout_constraintTop_toBottomOf="@id/input_website">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_organizer_register_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:gravity="top|start"
+                    android:hint="Mô tả về Tổ chức/Lĩnh vực hoạt động (Bắt buộc)"
+                    android:inputType="textMultiLine"
+                    android:textColor="#757575"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_submit_request"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#4CAF50"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="GỬI YÊU CẦU DUYỆT"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/input_description"
+                app:layout_constraintTop_toBottomOf="@id/input_description" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

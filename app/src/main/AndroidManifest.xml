@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MidTerm">
+        <activity
+            android:name=".view.NotificationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.UpdateVoucherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ManageVouchers"
+            android:exported="false" />
+        <activity
+            android:name=".view.CreateVoucher"
+            android:exported="false" />
+        <activity
+            android:name=".view.Search"
+            android:exported="false" />
+        <activity
+            android:name=".view.EventDetail"
+            android:exported="false" />
+        <activity
+            android:name=".view.UpdateEvent"
+            android:exported="false" />
+        <activity
+            android:name=".view.CreateEventSection"
+            android:exported="false" />
+        <activity
+            android:name=".view.EventListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.CreateSeatMap"
+            android:exported="false" />
+        <activity
+            android:name=".view.ViewEventDetailsOrganizer"
+            android:exported="false" />
+        <activity
+            android:name=".view.RegisterOrganizer"
+            android:exported="false" />
+        <activity
+            android:name=".view.OrganizerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.AccountInfoActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".view.ViewEventDetailsOrganizer$CreateOrganizerProfile" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".view.CreateGuest"
+            android:exported="false" />
+        <activity
+            android:name=".view.CreateTicketType"
+            android:exported="false" />
+        <activity
+            android:name=".view.CreateEvent"
+            android:exported="false" />
+        <activity
+            android:name=".view.HomepageOrganizer"
+            android:exported="false" />
+        <activity
+            android:name=".view.Homepage"
+            android:exported="false" />
+        <activity
+            android:name=".view.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- New Activities for Organizer Features -->
+        <activity
+            android:name=".view.EventDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.SalesReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.NotificationBroadcastActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ImportExportActivity"
+            android:exported="false" /> <!-- User Booking Activities -->
+        <activity
+            android:name=".view.BookTicketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MyTicketsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.SeatSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.GroupBookingActivity"
+            android:exported="false" /> <!-- Settings Activities -->
+        <activity
+            android:name=".view.NotificationSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ThemeSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ChangePasswordActivity"
+            android:exported="false" /> <!-- QR Scanner Activity for Check-in -->
+        <activity
+            android:name=".view.QRScannerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" /> <!-- FileProvider for sharing exported files -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

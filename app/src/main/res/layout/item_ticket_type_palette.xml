@@ -1,0 +1,37 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:strokeWidth="2dp"
+    app:cardElevation="2dp">
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:gravity="center">
+
+        <View
+            android:id="@+id/view_ticket_color"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="#FF0000"/>
+        <TextView
+            android:id="@+id/tv_ticket_type_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Vé VIP"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_ticket_type_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2,000,000đ"
+            android:textSize="12sp"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

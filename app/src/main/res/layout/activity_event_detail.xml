@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F8F9FA"
+    tools:context=".view.EventDetail">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4CAF50">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#4CAF50"
+            app:navigationIcon="@drawable/arrow__1_"
+            app:title="Chi tiết sự kiện"
+            app:navigationIconTint="?attr/colorOnPrimary"
+            app:titleTextColor="?attr/colorOnPrimary" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_event_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:contentDescription="Banner sự kiện"
+                        android:scaleType="centerCrop"
+                        tools:src="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/tv_event_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textStyle="bold"
+                        tools:text="Tên sự kiện " />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:srcCompat="@drawable/calendar__2_"
+                            app:tint="#4CAF50" />
+                        <TextView
+                            android:id="@+id/tv_event_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            tools:text="Thứ 7, 15 Th11, 2025 • 8:00 PM" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:srcCompat="@drawable/placeholder__1_"
+                            app:tint="#4CAF50" />
+
+                        <TextView
+                            android:id="@+id/tv_event_location"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            tools:text="TP. Hồ Chí Minh" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Giới thiệu sự kiện"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:lineSpacingExtra="4dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textSize="16sp"
+                tools:text="Đây là nơi hiển thị mô tả chi tiết của sự kiện." />
+
+            <TextView
+                android:id="@+id/tv_video_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Video Giới Thiệu"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_video_player"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <VideoView
+                        android:id="@+id/videoView_event"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                    <FrameLayout
+                        android:id="@+id/layout_video_thumbnail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/img_video_thumbnail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Video thumbnail" />
+
+                        <ImageView
+                            android:id="@+id/btn_play_video"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_media_play"
+                            app:tint="@android:color/black"
+                            android:contentDescription="Play Video" />
+                    </FrameLayout>
+
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:id="@+id/ll_guest_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Khách mời"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_guests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_guest"
+                    tools:itemCount="2" />
+            </LinearLayout>
+
+            <!-- Weather Section -->
+            <LinearLayout
+                android:id="@+id/ll_weather_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Dự báo thời tiết"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/iv_weather_icon"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:src="@drawable/ic_weather_sun"
+                                android:contentDescription="Weather icon" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="16dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_weather_temp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="28sp"
+                                    android:textStyle="bold"
+                                    android:textColor="?android:attr/textColorPrimary"
+                                    tools:text="28°C" />
+
+                                <TextView
+                                    android:id="@+id/tv_weather_desc"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="14sp"
+                                    android:textColor="?android:attr/textColorSecondary"
+                                    tools:text="Trời quang" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_weather_humidity"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="12sp"
+                                android:textColor="?android:attr/textColorSecondary"
+                                tools:text="Độ ẩm: 65%" />
+
+                            <TextView
+                                android:id="@+id/tv_weather_wind"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="12sp"
+                                android:textColor="?android:attr/textColorSecondary"
+                                tools:text="Gió: 2.5 m/s" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_weather_advice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:textSize="13sp"
+                            android:textStyle="italic"
+                            tools:text="✓ Thời tiết phù hợp cho sự kiện ngoài trời" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Thông tin vé"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textStyle="bold" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ticket_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_ticket_list"
+                tools:itemCount="2" />
+
+            <!-- Share & Actions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_share"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Chia sẻ"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_share"
+                    app:cornerRadius="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_map"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bản đồ"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_map"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
+            <!-- Reviews Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Đánh giá"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tv_avg_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.0"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <RatingBar
+                                android:id="@+id/rating_bar_avg"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:numStars="5"
+                                android:rating="0"
+                                android:isIndicator="true" />
+
+                            <TextView
+                                android:id="@+id/tv_review_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 đánh giá"
+                                android:textSize="12sp"
+                                android:textColor="#666666" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_write_review"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Viết đánh giá"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="#1F1E1E"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_price_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Giá từ"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_lowest_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="2"
+                    android:textColor="#4CAF50"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="150.000đ" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_buy_ticket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#4CAF50"
+                    android:text="Mua vé ngay"
+                    app:cornerRadius="6dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

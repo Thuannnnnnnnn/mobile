@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:id="@+id/tv_buyer_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Nguyễn Văn An"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/chip_ticket_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_ticket_status"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:text="Đã check-in"
+        android:textColor="@android:color/white"
+        app:chipBackgroundColor="#4CAF50"
+        app:chipMinTouchTargetSize="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_buyer_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_buyer_name" />
+
+    <TextView
+        android:id="@+id/tv_ticket_type_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:text="Loại vé: Vé VIP"
+        android:textColor="#757575"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_buyer_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_buyer_name" />
+
+    <TextView
+        android:id="@+id/tv_purchase_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:text="Mua: 10/10/2025"
+        android:textColor="#757575"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/chip_ticket_status"
+        app:layout_constraintTop_toBottomOf="@+id/chip_ticket_status" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#F5F5F5"
+        app:layout_constraintStart_toStartOf="@+id/tv_ticket_type_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ticket_type_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tv_stats_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Thống kê tổng quan (7 ngày)"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/summary_stats_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:weightSum="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_stats_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_stats_title">
+
+            <LinearLayout
+                android:id="@+id/stat_sold_tickets"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_stat_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tv_sold_tickets_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4CAF50"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="1500" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vé đã bán"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/stat_revenue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_stat_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tv_revenue_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="150M" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doanh thu"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/stat_events"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_stat_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tv_events_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sự kiện"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_quick_actions_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Hành động nhanh"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/summary_stats_group" />
+
+        <LinearLayout
+            android:id="@+id/quick_actions_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_quick_actions_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_quick_actions_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_create_event"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#4CAF50"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Tạo Sự kiện"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:icon="@drawable/add"
+                    app:iconGravity="top"
+                    app:iconSize="24dp"
+                    app:iconTint="@android:color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_manage_vouchers"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@android:color/white"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Vouchers"
+                    android:textColor="#4CAF50"
+                    android:textSize="12sp"
+                    app:icon="@drawable/list"
+                    app:iconGravity="top"
+                    app:iconSize="24dp"
+                    app:iconTint="#4CAF50"
+                    app:strokeColor="#4CAF50"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_check_in"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@android:color/white"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Check-in"
+                    android:textColor="#4CAF50"
+                    android:textSize="12sp"
+                    app:icon="@drawable/qr_code__2_"
+                    app:iconGravity="top"
+                    app:iconSize="24dp"
+                    app:iconTint="#4CAF50"
+                    app:strokeColor="#4CAF50"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_history"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@android:color/white"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Lịch sử"
+                    android:textColor="#4CAF50"
+                    android:textSize="12sp"
+                    app:icon="@drawable/list"
+                    app:iconGravity="top"
+                    app:iconSize="24dp"
+                    app:iconTint="#4CAF50"
+                    app:strokeColor="#4CAF50"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_active_events_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Sự kiện đang hoạt động"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quick_actions_group" />
+
+        <TextView
+            android:id="@+id/tv_view_all_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Xem tất cả"
+            android:textColor="#4CAF50"
+            app:layout_constraintBottom_toBottomOf="@id/tv_active_events_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_active_events_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_active_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:nestedScrollingEnabled="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_active_events_title"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_organizer_event_card" />
+
+        <TextView
+            android:id="@+id/tv_past_events_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="Sự kiện đã kết thúc"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_active_events" />
+
+        <TextView
+            android:id="@+id/tv_view_all_past_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Xem tất cả"
+            android:textColor="#4CAF50"
+            app:layout_constraintBottom_toBottomOf="@id/tv_past_events_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_past_events_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_past_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:nestedScrollingEnabled="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_past_events_title"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_organizer_event_card" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

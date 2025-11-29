@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_ticket_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VIP"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_ticket_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="500.000 đ"
+                android:textSize="14sp"
+                android:textColor="#4CAF50" />
+
+            <TextView
+                android:id="@+id/tv_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Còn 100 vé"
+                android:textSize="12sp"
+                android:textColor="#999999" />
+        </LinearLayout>
+
+        <!-- Quantity Selector -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_quantity_selector"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/btn_minus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_minus"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <TextView
+                android:id="@+id/tv_quantity"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/btn_plus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_plus"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

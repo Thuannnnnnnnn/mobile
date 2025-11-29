@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sắp xếp theo"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <RadioGroup
+            android:id="@+id/rg_sort_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/rb_sort_date_asc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngày diễn ra (Tăng dần)" />
+
+            <RadioButton
+                android:id="@+id/rb_sort_date_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngày diễn ra (Giảm dần)" />
+
+            <RadioButton
+                android:id="@+id/rb_sort_name_az"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên sự kiện (A-Z)" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Lọc theo Thể loại"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipgroup_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <Button
+            android:id="@+id/btn_apply_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Áp dụng"
+            android:backgroundTint="@color/colorSuccess" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

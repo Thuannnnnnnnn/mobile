@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".view.CreateGuest">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4CAF50"
+        android:paddingTop="18dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Quay lại"
+            android:src="@drawable/arrow__1_"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Thêm Khách Mời Sự Kiện"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_avatar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ảnh đại diện (Avatar)"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_guest_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                app:civ_border_color="#4CAF50"
+                app:civ_border_width="2dp"
+                android:src="@drawable/unnamed_removebg_preview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_avatar_title" />
+
+            <TextView
+                android:id="@+id/tv_avatar_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Nhấn vào ảnh để chọn tệp\nhoặc ảnh từ thư viện"
+                android:textColor="#757575"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/img_guest_avatar"
+                app:layout_constraintStart_toEndOf="@id/img_guest_avatar"
+                app:layout_constraintTop_toTopOf="@id/img_guest_avatar" />
+
+            <View
+                android:id="@+id/divider_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#E0E0E0"
+                app:layout_constraintTop_toBottomOf="@id/img_guest_avatar" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_guest_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_avatar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_guest_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên Khách mời (Bắt buộc)"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_guest_role"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_guest_name">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actv_guest_role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn Vai trò/Chức danh"
+                    android:inputType="none"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_guest_bio"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_guest_role">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_guest_bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:gravity="top|start"
+                    android:hint="Tiểu sử/Mô tả chi tiết về khách mời (Bắt buộc)"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_guest_social"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_guest_bio"
+                app:startIconDrawable="@drawable/infor"
+                app:startIconTint="#757575">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_guest_social"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Liên kết Mạng xã hội/Website cá nhân (Tùy chọn)"
+                    android:inputType="textUri" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_save_and_add_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#8BC34A"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="THÊM MỚI"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_guest_social" />
+
+            <View
+                android:id="@+id/divider_guest_list"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#E0E0E0"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_save_and_add_new" />
+
+            <TextView
+                android:id="@+id/tv_guest_list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Danh Sách Khách Mời"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@+id/divider_guest_list"
+                app:layout_constraintTop_toBottomOf="@id/divider_guest_list" />
+
+            <FrameLayout
+                android:id="@+id/guest_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:animateLayoutChanges="true"
+                android:minHeight="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_guest_list_title">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_added_guests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_guest_summary" />
+
+                <TextView
+                    android:id="@+id/tv_empty_guest_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Chưa có khách mời nào được thêm"
+                    android:textColor="#757575"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    app:drawableTopCompat="@drawable/box" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btn_finish_adding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#4CAF50"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="TIẾP TỤC"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guest_list_container" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"  android:background="#F5F5F5"
+    tools:context=".view.CreateTicketType">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_dialog_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#4CAF50"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back_dialog"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Quay lại"
+            android:src="@drawable/arrow__1_"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quản lý Loại Vé"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/management_footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_dialog_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_input_section_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thông tin Loại Vé Mới"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_ticket_type"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_input_section_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_input_section_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_ticket_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên loại vé (Ví dụ: VIP, Thường, Early Bird)"
+                    android:inputType="textCapWords" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_quantity_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/tvErrorTicketType"
+                app:layout_constraintTop_toBottomOf="@+id/tvErrorTicketType">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_quantity"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Số lượng"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_price"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    app:suffixText="VNĐ">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_ticket_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Giá vé"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvErrorTicketType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/input_ticket_type"
+                app:layout_constraintTop_toBottomOf="@+id/input_ticket_type" />
+
+            <TextView
+                android:id="@+id/tvErrorQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/layout_quantity_price"
+                app:layout_constraintTop_toBottomOf="@+id/layout_quantity_price" />
+
+            <TextView
+                android:id="@+id/tvErrorTicketPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="#ED2A2A"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="@+id/layout_quantity_price"
+                app:layout_constraintTop_toBottomOf="@+id/layout_quantity_price" />
+
+            <TextView
+                android:id="@+id/tv_sale_time_start_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Thời gian mở bán vé"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tvErrorQuantity"
+                app:layout_constraintTop_toBottomOf="@+id/tvErrorQuantity" />
+
+            <LinearLayout
+                android:id="@+id/layout_sale_time_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/tv_sale_time_start_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_sale_time_start_title">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_sale_date_start"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:endIconDrawable="@drawable/calendar__2_"
+                    app:endIconMode="custom"
+                    app:endIconTint="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_sale_date_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="Ngày mở bán"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_sale_time_start"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    app:endIconDrawable="@drawable/clock__1_"
+                    app:endIconMode="custom"
+                    app:endIconTint="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_sale_time_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="Giờ mở bán"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_sale_time_end_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Thời gian đóng bán vé"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/layout_sale_time_start"
+                app:layout_constraintTop_toBottomOf="@+id/layout_sale_time_start" />
+
+            <LinearLayout
+                android:id="@+id/layout_sale_time_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/tv_sale_time_end_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_sale_time_end_title">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_sale_date_end"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:endIconDrawable="@drawable/calendar__2_"
+                    app:endIconMode="custom"
+                    app:endIconTint="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_sale_date_end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="Ngày kết thúc"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_sale_time_end"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    app:endIconDrawable="@drawable/clock__1_"
+                    app:endIconMode="custom"
+                    app:endIconTint="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_sale_time_end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:hint="Giờ kết thúc"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_ticketType_description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/layout_sale_time_end"
+                app:layout_constraintTop_toBottomOf="@id/layout_sale_time_end">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_ticketType_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|top"
+                    android:hint="Mô tả (Quyền lợi, ... )"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:maxLines="5"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_save_and_add_new"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="LƯU &amp; THÊM LOẠI VÉ KHÁC"
+                android:textColor="#4CAF50"
+                app:icon="@drawable/ticket_add"
+                app:iconTint="#4CAF50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_ticketType_description" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="#CCCCCC"
+                app:layout_constraintTop_toBottomOf="@id/btn_save_and_add_new" />
+
+            <TextView
+                android:id="@+id/tv_existing_tickets_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Danh sách Loại Vé đã tạo"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/divider"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            <TextView
+                android:id="@+id/tv_ticket_list_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Chưa có loại vé nào được thêm."
+                android:textColor="#757575"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/tv_existing_tickets_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_existing_tickets_title"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ticket_types_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_ticket_list_empty"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ticket_list_empty"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_ticket_type_preview" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rv_ticket_types_list"
+                app:layout_constraintTop_toBottomOf="@id/rv_ticket_types_list" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/management_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="8dp"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_finish_ticket_setup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:text="HOÀN TẤT &amp; ĐẾN BƯỚC TIẾP THEO"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

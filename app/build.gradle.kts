@@ -41,7 +41,6 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
     implementation(libs.circleImageview)
-    implementation(libs.androidx.fragment)
     implementation(fileTree(mapOf(
         "dir" to "C:\\Users\\Thuan\\OneDrive\\Desktop\\New folder",
         "include" to listOf("*.aar", "*.jar"),
@@ -65,6 +64,7 @@ dependencies {
 
     // 1. Firebase (BOM để quản lý version)
     implementation(platform("com.google.firebase:firebase-bom:33.1.0")) // Cập nhật phiên bản BOM
+    implementation("com.google.firebase:firebase-appcheck-playintegrity") // Thêm dòng này
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore") // Database Realtime mới
     implementation("com.google.firebase:firebase-auth") // Đăng nhập

@@ -42,7 +42,7 @@ import com.example.midterm.model.entity.relations.EventGuestCrossRef;
         Review.class,
         FollowedArtist.class,
         Discount.class
-}, version = 21, exportSchema = false)
+}, version = 22, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;

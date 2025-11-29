@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAdapter.OnPaletteClickListener {
     private ImageButton btnBack;
@@ -183,7 +184,10 @@ public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAda
 
     //Tải và vẽ lưới (Grid) khi một Khu vực (Section) được chọn
     private void loadSeatGridForSection(EventSection section) {
-        if (section == null) return;
+        if (section == null) {
+            showSnackbar("Lỗi: Không có khu vực nào được chọn.", true);
+            return;
+        }
 
         // Xử lý Khu Đứng (Standing)
         if ("standing".equals(section.getSectionType())) {
@@ -197,8 +201,16 @@ public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAda
             tvStandingSectionNote.setVisibility(View.GONE);
             rvSeatGrid.setVisibility(View.VISIBLE);
 
-            // Set LayoutManager
             int numColumns = (section.getMapTotalCols() != null && section.getMapTotalCols() > 0) ? section.getMapTotalCols() : 1;
+            // Kiểm tra số hàng và cột hợp lệ để hiển thị lưới
+            if (section.getMapTotalRows() == null || section.getMapTotalRows() <= 0 || numColumns <= 0) {
+                showSnackbar("Lỗi: Kích thước lưới chỗ ngồi cho khu vực này không hợp lệ. Vui lòng kiểm tra lại cấu hình khu vực.", true);
+                rvSeatGrid.setVisibility(View.GONE);
+                gridAdapter.setSeats(new ArrayList<>());
+                return;
+            }
+
+            // Set LayoutManager
             rvSeatGrid.setLayoutManager(new GridLayoutManager(this, numColumns));
 
             // Nếu đã có trong cache (đã "vẽ" hoặc đã load), dùng cache
@@ -229,22 +241,26 @@ public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAda
     private List<Seat> renderGrid(EventSection section, List<Seat> existingSeats) {
         int rows = (section.getMapTotalRows() != null) ? section.getMapTotalRows() : 0;
         int cols = (section.getMapTotalCols() != null) ? section.getMapTotalCols() : 0;
+
+        // Thêm kiểm tra ở đây để tránh tạo lưới rỗng nếu rows hoặc cols là 0
+        if (rows <= 0 || cols <= 0) {
+            return new ArrayList<>();
+        }
+
         List<Seat> displaySeats = new ArrayList<>();
+        Map<String, Seat> existingSeatMap = new HashMap<>();
+        for (Seat seat : existingSeats) {
+            existingSeatMap.put(seat.getSeatRow() + seat.getSeatNumber(), seat);
+        }
 
         for (int r = 0; r < rows; r++) {
             String rowName = String.valueOf((char) ('A' + r));
             for (int c = 0; c < cols; c++) {
                 String colName = String.valueOf(c + 1);
+                String key = rowName + colName;
 
-                Seat foundSeat = null;
-                for (Seat existing : existingSeats) {
-                    if (rowName.equals(existing.getSeatRow()) && colName.equals(existing.getSeatNumber())) {
-                        foundSeat = existing;
-                        break;
-                    }
-                }
-                if (foundSeat != null) {
-                    displaySeats.add(foundSeat);
+                if (existingSeatMap.containsKey(key)) {
+                    displaySeats.add(existingSeatMap.get(key));
                 } else {
                     displaySeats.add(new Seat(section.sectionId, null, rowName, colName, "unassigned", null, null));
                 }
@@ -264,6 +280,18 @@ public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAda
             // Đổ vào Dropdown
             sectionSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, sectionNames);
             actvSectionSelector.setAdapter(sectionSpinnerAdapter);
+
+            // Tự động chọn khu vực đầu tiên nếu có
+            if (!sections.isEmpty()) {
+                currentSelectedSection = sections.get(0);
+                actvSectionSelector.setText(currentSelectedSection.name, false); // Hiển thị tên khu vực trong AutoCompleteTextView
+                loadSeatGridForSection(currentSelectedSection);
+            } else {
+                // Nếu không có khu vực nào, hiển thị thông báo và ẩn lưới
+                showSnackbar("Không tìm thấy khu vực nào cho sự kiện này. Vui lòng tạo khu vực trước.", true);
+                tvStandingSectionNote.setVisibility(View.GONE);
+                rvSeatGrid.setVisibility(View.GONE);
+            }
         });
         //Tải danh sách Loại vé (Ticket Types)
         ticketTypeViewModel.getTicketsByEventId((int) currentEventId).observe(this, ticketTypes -> {
@@ -366,17 +394,23 @@ public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAda
     }
     //Logic Hủy (Xóa tất cả)
     private void deleteEventAndFinish() {
-        guestViewModel.deleteGuestsAndCrossRefsByEventId(currentEventId);
-        ticketTypeViewModel.deleteTicketsByEventId(currentEventId);
-        eventViewModel.deleteEventById(currentEventId);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            // Thực hiện xóa trên luồng nền
+            guestViewModel.deleteGuestsAndCrossRefsByEventId(currentEventId);
+            ticketTypeViewModel.deleteTicketsByEventId(currentEventId);
+            eventViewModel.deleteEventById(currentEventId);
 
-        showSnackbar("Đã hủy tạo sự kiện.", true);
+            // Sau khi xóa xong, quay lại luồng chính để cập nhật UI và chuyển Activity
+            runOnUiThread(() -> {
+                showSnackbar("Đã hủy tạo sự kiện.", true);
 
-        // Quay về Homepage
-        Intent intent = new Intent(this, HomepageOrganizer.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish();
+                // Quay về Homepage
+                Intent intent = new Intent(this, HomepageOrganizer.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        });
     }
 
     private void showSnackbar(String message, boolean isError) {

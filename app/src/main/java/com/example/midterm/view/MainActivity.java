@@ -24,6 +24,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 
 public class MainActivity extends AppCompatActivity {
     private AccountViewModel accountViewModel;
@@ -47,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_login);
 
         FirebaseApp.initializeApp(this);
+        // Khởi tạo Firebase App Check
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
+
 
         if (FirebaseApp.getApps(this).size() > 0) {
             Log.d("FirebaseTest", " Firebase initialized successfully!");
@@ -78,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 if("user".equals(user.getRole())){
                     Intent intent = new Intent(this, Homepage.class);
                     intent.putExtra("user_id", userID);
+
                     startActivity(intent);
                     finish();
                 }

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast; // Import Toast
 import android.widget.VideoView;
 
 import androidx.activity.EdgeToEdge;
@@ -39,6 +40,7 @@ import com.example.midterm.viewModel.EventViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth; // Import FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -53,13 +55,13 @@ import java.util.UUID;
 public class CreateEvent extends AppCompatActivity {
     private TextInputLayout inputLayoutEventName, inputLayoutLocation, inputLayoutDate;
     private TextInputEditText inputEventName, inputDescription, inputDate, inputTime, inputLocation, inputDateEnd, inputTimeEnd;
-    private TextView tvUploadHint, tvVideoUploadStatus;
+    private TextView tvUploadHint;
     private ImageView imgBanner;
     private AutoCompleteTextView inputCategory;
     private Button btnNext, btnSelectVideo;
     private ImageButton btnBack;
 
-    private ProgressBar pbBannerUpload, pbVideoUpload;
+    private ProgressBar pbBannerUpload;
     private VideoView videoViewEvent;
     private View rootView;
 
@@ -76,7 +78,7 @@ public class CreateEvent extends AppCompatActivity {
     private Uri selectedVideoUri = null;
     private String eventUUID; // Dùng chung cho banner và video
     private String uploadedBannerUrl = null;
-    private String uploadedVideoUrl = null;
+    // private String uploadedVideoUrl = null; // Video vẫn lưu cục bộ
     private ActivityResultLauncher<String> imagePickerLauncher;
     private ActivityResultLauncher<String> videoPickerLauncher;
 
@@ -137,6 +139,13 @@ public class CreateEvent extends AppCompatActivity {
                         selectedBannerUri = uri;
                         imgBanner.setImageURI(selectedBannerUri);
                         tvUploadHint.setVisibility(View.GONE);
+                        // Gọi phương thức tải lên banner sau khi chọn ảnh
+                        // Cần có người dùng đăng nhập Firebase Auth để tải lên Storage
+                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                            uploadBannerAndCreateEvent();
+                        } else {
+                            showSnackbar("Vui lòng đăng nhập để tải ảnh banner lên Firebase.", true);
+                        }
                     }
                 });
 
@@ -144,8 +153,14 @@ public class CreateEvent extends AppCompatActivity {
                 uri -> {
                     if (uri != null) {
                         selectedVideoUri = uri;
-                        videoViewEvent.setVisibility(View.GONE); // Ẩn video cũ
-                        startVideoUpload(); // Bắt đầu tải lên ngay
+                        videoViewEvent.setVisibility(View.VISIBLE); // Hiển thị VideoView
+                        videoViewEvent.setVideoURI(selectedVideoUri);
+
+                        // Thêm điều khiển (play/pause)
+                        MediaController mediaController = new MediaController(this);
+                        videoViewEvent.setMediaController(mediaController);
+                        mediaController.setAnchorView(videoViewEvent);
+                        videoViewEvent.start(); // Tự động phát
                     }
                 });
     }
@@ -169,8 +184,8 @@ public class CreateEvent extends AppCompatActivity {
 
         // View upload banner and video
         pbBannerUpload = findViewById(R.id.pb_banner_upload);
-        pbVideoUpload = findViewById(R.id.pb_video_upload);
-        tvVideoUploadStatus = findViewById(R.id.tv_video_upload_status);
+        // Đã loại bỏ pbVideoUpload
+        // Đã loại bỏ tvVideoUploadStatus
         videoViewEvent = findViewById(R.id.video_view_event);
 
         // Views cho validation
@@ -184,7 +199,7 @@ public class CreateEvent extends AppCompatActivity {
     private void showCancelConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Hủy tạo sự kiện?")
-                .setMessage("Bạn có chắc chắn muốn hủy? Mọi video hoặc hình ảnh đã tải lên sẽ bị xóa.")
+                .setMessage("Bạn có chắc chắn muốn hủy? Mọi hình ảnh đã tải lên Firebase sẽ bị xóa.") // Cập nhật message
                 .setPositiveButton("Hủy bỏ", (dialog, which) -> deleteUploadedFilesAndFinish())
                 .setNegativeButton("Tiếp tục", null)
                 .setIcon(R.drawable.warning) // Cần có icon @drawable/warning
@@ -193,19 +208,12 @@ public class CreateEvent extends AppCompatActivity {
 
     //Gửi lệnh xóa các file đã tải lên Firebase và đóng Activity
     private void deleteUploadedFilesAndFinish() {
-        // Chỉ xóa nếu người dùng đã chọn file
-        // Không cần đợi xóa xong, chỉ cần gửi lệnh và thoát
-
-        // 1. Xóa Banner (nếu đã chọn)
-        if (selectedBannerUri != null) {
+        // Chỉ xóa banner nếu đã chọn và người dùng đã đăng nhập Firebase Auth
+        if (selectedBannerUri != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
             StorageReference bannerRef = storageRef.child("events/" + this.eventUUID + "/banner.jpg");
             bannerRef.delete().addOnFailureListener(e -> Log.w("CreateEvent", "Không thể xóa banner mồ côi: ", e));
         }
-        // 2. Xóa Video (nếu đã chọn)
-        if (selectedVideoUri != null) {
-            StorageReference videoRef = storageRef.child("events/" + this.eventUUID + "/video.mp4");
-            videoRef.delete().addOnFailureListener(e -> Log.w("CreateEvent", "Không thể xóa video mồ côi: ", e));
-        }
+        // Video vẫn lưu cục bộ, không cần xóa từ Firebase
         finish();
     }
 
@@ -218,45 +226,21 @@ public class CreateEvent extends AppCompatActivity {
     }
 
     private void selectImageFromGallery() {
+        Log.d("CreateEvent", "Current Firebase User: " + (FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "null"));
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Toast.makeText(this, "Vui lòng đăng nhập để tải ảnh banner lên.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         imagePickerLauncher.launch("image/*");
     }
 
     private void selectVideoFromGallery() {
+        // Video giờ được xử lý cục bộ, không cần Firebase Auth
         videoPickerLauncher.launch("video/*");
     }
 
 
-    //Tải video lên Firebase ngay sau khi chọn
-    private void startVideoUpload() {
-        if (selectedVideoUri == null) return;
-
-        pbVideoUpload.setVisibility(View.VISIBLE);
-        pbVideoUpload.setProgress(0);
-        tvVideoUploadStatus.setText("Đang tải lên video...");
-        StorageReference videoRef = storageRef.child("events/" + this.eventUUID + "/video.mp4");
-
-        videoRef.putFile(selectedVideoUri)
-                .addOnProgressListener(snapshot -> {
-                    double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                    pbVideoUpload.setProgress((int) progress);
-                    tvVideoUploadStatus.setText(String.format(Locale.getDefault(), "Đang tải lên... %.0f%%", progress));
-                })
-                .continueWithTask(task -> {
-                    if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
-                    return videoRef.getDownloadUrl();
-                })
-                .addOnSuccessListener(downloadUri -> {
-                    pbVideoUpload.setVisibility(View.GONE);
-                    uploadedVideoUrl = downloadUri.toString(); // Lưu URL
-                    tvVideoUploadStatus.setText("Tải lên video thành công!");
-                    showUploadedVideo(downloadUri); // Hiển thị video
-                })
-                .addOnFailureListener(e -> {
-                    showSnackbar("Upload video thất bại: " + e.getMessage(), true);
-                    pbVideoUpload.setVisibility(View.GONE);
-                    tvVideoUploadStatus.setText("Tải lên thất bại.");
-                });
-    }
+    // Phương thức startVideoUpload() vẫn bị loại bỏ
 
     //Kiểm tra các trường nhập liệu trước khi tạo sự kiện
     private void validateAndCreateEvent() {
@@ -286,6 +270,12 @@ public class CreateEvent extends AppCompatActivity {
             showSnackbar("Vui lòng chọn ảnh banner", true);
             hasError = true;
         }
+        // Kiểm tra đăng nhập trước khi tải lên banner và tạo sự kiện
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Toast.makeText(this, "Vui lòng đăng nhập để tạo sự kiện và tải ảnh lên.", Toast.LENGTH_LONG).show();
+            hasError = true;
+        }
+
         if (hasError) {
             return; // Dừng lại nếu có lỗi
         }
@@ -293,10 +283,18 @@ public class CreateEvent extends AppCompatActivity {
         // Vô hiệu hóa nút và bắt đầu upload banner
         btnNext.setEnabled(false);
         btnNext.setText("Đang xử lý...");
-        uploadBannerAndCreateEvent();
+        uploadBannerAndCreateEvent(); // Gọi phương thức upload banner
     }
 
     private void uploadBannerAndCreateEvent() {
+        // Đã kiểm tra đăng nhập trong validateAndCreateEvent(), nhưng thêm lại cho an toàn
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            showSnackbar("Lỗi: Người dùng chưa đăng nhập.", true);
+            btnNext.setEnabled(true);
+            btnNext.setText("Tạo Sự Kiện");
+            return;
+        }
+
         pbBannerUpload.setVisibility(View.VISIBLE);
         pbBannerUpload.setProgress(0);
         StorageReference bannerRef = storageRef.child("events/" + this.eventUUID + "/banner.jpg");
@@ -305,6 +303,7 @@ public class CreateEvent extends AppCompatActivity {
                 .addOnProgressListener(snapshot -> {
                     double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
                     pbBannerUpload.setProgress((int) progress);
+                    tvUploadHint.setText(String.format(Locale.getDefault(), "Đang tải lên banner... %.0f%%", progress));
                 })
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
@@ -312,28 +311,20 @@ public class CreateEvent extends AppCompatActivity {
                 })
                 .addOnSuccessListener(bannerUri -> {
                     pbBannerUpload.setVisibility(View.GONE);
+                    tvUploadHint.setText("Tải lên banner thành công!");
                     uploadedBannerUrl = bannerUri.toString(); // Lưu URL banner
                     createEvent(); // Tạo sự kiện
                 })
                 .addOnFailureListener(e -> {
                     showSnackbar("Upload banner thất bại: " + e.getMessage(), true);
+                    pbBannerUpload.setVisibility(View.GONE);
+                    tvUploadHint.setText("Tải lên banner thất bại.");
                     btnNext.setEnabled(true);
                     btnNext.setText("Tạo Sự Kiện");
                 });
     }
 
-    //Hiển thị video đã tải lên trong VideoView
-    private void showUploadedVideo(Uri videoUri) {
-        videoViewEvent.setVisibility(View.VISIBLE);
-        videoViewEvent.setVideoURI(videoUri);
-
-        // Thêm điều khiển (play/pause)
-        MediaController mediaController = new MediaController(this);
-        videoViewEvent.setMediaController(mediaController);
-        mediaController.setAnchorView(videoViewEvent);
-
-        videoViewEvent.start(); // Tự động phát
-    }
+    // Phương thức showUploadedVideo() đã được di chuyển vào setupResultLaunchers
 
     //Tạo đối tượng Event và lưu vào Room
     private void createEvent() {
@@ -344,9 +335,10 @@ public class CreateEvent extends AppCompatActivity {
         String startDate = String.valueOf(inputDate.getText()).trim() + " " + String.valueOf(inputTime.getText()).trim();
         String endDate = String.valueOf(inputDateEnd.getText()).trim() + " " + String.valueOf(inputTimeEnd.getText()).trim();
 
-        // Lấy URL từ biến class
+        // Lấy URL từ biến class (Firebase URL)
         String bannerUrlToSave = (uploadedBannerUrl != null) ? uploadedBannerUrl : "";
-        String videoUrlToSave = (uploadedVideoUrl != null) ? uploadedVideoUrl : "";
+        // Lấy URI từ biến selectedVideoUri.toString() (video cục bộ)
+        String videoUrlToSave = (selectedVideoUri != null) ? selectedVideoUri.toString() : "";
 
         // Dùng eventUUID từ biến class
         Event event = new Event(this.eventUUID, userId, name, bannerUrlToSave, videoUrlToSave, desc, category, location, startDate,

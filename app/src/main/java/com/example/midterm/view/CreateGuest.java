@@ -32,10 +32,13 @@ import com.google.android.material.snackbar.Snackbar;
 import android.content.res.ColorStateList;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.util.UUID;
+// Removed Firebase Storage imports
+// import com.google.firebase.storage.FirebaseStorage;
+// import com.google.firebase.storage.StorageReference;
+
+// Removed UUID import if not used for anything else
+// import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,7 +56,7 @@ public class CreateGuest extends AppCompatActivity implements GuestAdapter.OnGue
     private GuestViewModel guestViewModel;
     private EventViewModel eventViewModel;
     private GuestAdapter guestAdapter;
-    private StorageReference storageRef;
+    // Removed StorageReference storageRef;
     private Uri selectedAvatarUri = null;
     private static final int PICK_IMAGE_REQUEST = 1001;
     private long currentEventId = -1L;
@@ -73,7 +76,8 @@ public class CreateGuest extends AppCompatActivity implements GuestAdapter.OnGue
             return;
         }
 
-        storageRef = FirebaseStorage.getInstance().getReference();
+        // Removed Firebase Storage initialization
+        // storageRef = FirebaseStorage.getInstance().getReference();
         guestViewModel = new ViewModelProvider(this).get(GuestViewModel.class);
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
@@ -199,18 +203,22 @@ public class CreateGuest extends AppCompatActivity implements GuestAdapter.OnGue
 
         btnAddNew.setEnabled(false);
 
-        String filename = "avatarGuests/" + UUID.randomUUID().toString() + ".jpg";
-        StorageReference imageRef = storageRef.child(filename);
+        // Directly use the local URI string
+        String imageUrl = selectedAvatarUri.toString();
+        saveGuestToDatabase(name, role, bio, social, imageUrl);
 
-        imageRef.putFile(selectedAvatarUri)
-                .addOnSuccessListener(task -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    saveGuestToDatabase(name, role, bio, social, imageUrl);
-                }))
-                .addOnFailureListener(e -> {
-                    showSnackbar("Lỗi tải ảnh: " + e.getMessage(), true);
-                    btnAddNew.setEnabled(true);
-                });
+        // Removed Firebase upload logic
+        // String filename = "avatarGuests/" + UUID.randomUUID().toString() + ".jpg";
+        // StorageReference imageRef = storageRef.child(filename);
+        // imageRef.putFile(selectedAvatarUri)
+        //         .addOnSuccessListener(task -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+        //             String imageUrl = uri.toString();
+        //             saveGuestToDatabase(name, role, bio, social, imageUrl);
+        //         }))
+        //         .addOnFailureListener(e -> {
+        //             showSnackbar("Lỗi tải ảnh: " + e.getMessage(), true);
+        //             btnAddNew.setEnabled(true);
+        //         });
     }
 
     private void saveGuestToDatabase(String name, String role, String bio, String social, String imageUrl) {
@@ -226,7 +234,7 @@ public class CreateGuest extends AppCompatActivity implements GuestAdapter.OnGue
             runOnUiThread(() -> {
                 showSnackbar("Đã thêm khách mời thành công!", false);
                 clearInputs();
-                btnAddNew.setEnabled(true);
+                btnAddNew.setEnabled(true); // Enable button after saving
             });
         }).start();
     }

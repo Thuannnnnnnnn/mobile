@@ -9,7 +9,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import androidx.lifecycle.Observer;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -278,7 +278,7 @@ public class CreateSeatMap extends AppCompatActivity implements TicketPaletteAda
             this.eventSections = sections;
             ArrayList<String> names = new ArrayList<>();
             for (EventSection s : sections) names.add(s.name);
-            sectionSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, names);
+            sectionSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
             actvSectionSelector.setAdapter(sectionSpinnerAdapter);
 
             if (!sections.isEmpty()) {

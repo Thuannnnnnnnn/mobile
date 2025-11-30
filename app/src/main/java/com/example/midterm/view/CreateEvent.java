@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast; // Import Toast
 import android.widget.VideoView;
 
 import androidx.activity.EdgeToEdge;
@@ -40,17 +39,18 @@ import com.example.midterm.viewModel.EventViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth; // Import FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.Executors;
 
 public class CreateEvent extends AppCompatActivity {
     private TextInputLayout inputLayoutEventName, inputLayoutLocation, inputLayoutDate;
@@ -61,7 +61,7 @@ public class CreateEvent extends AppCompatActivity {
     private Button btnNext, btnSelectVideo;
     private ImageButton btnBack;
 
-    private ProgressBar pbBannerUpload;
+    private ProgressBar pbProcessing; // Đổi tên từ pbBannerUpload để dùng chung
     private VideoView videoViewEvent;
     private View rootView;
 
@@ -70,15 +70,11 @@ public class CreateEvent extends AppCompatActivity {
     private int userId;
     private final Calendar startCalendar = Calendar.getInstance();
     private final Calendar endCalendar = Calendar.getInstance();
-    private StorageReference storageRef;
-    private AppDatabase db; // Database instance
 
     // Trạng thái (State)
     private Uri selectedBannerUri = null;
     private Uri selectedVideoUri = null;
-    private String eventUUID; // Dùng chung cho banner và video
-    private String uploadedBannerUrl = null;
-    // private String uploadedVideoUrl = null; // Video vẫn lưu cục bộ
+    private String eventUUID;
     private ActivityResultLauncher<String> imagePickerLauncher;
     private ActivityResultLauncher<String> videoPickerLauncher;
 
@@ -88,16 +84,11 @@ public class CreateEvent extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_event);
 
-        db = AppDatabase.getInstance(getApplicationContext()); // Khởi tạo DB
-        FirebaseStorage storage = FirebaseStorage.getInstance(); // Khởi tạo Firebase
-        storageRef = storage.getReference();
-
-        // Tạo UUID duy nhất cho sự kiện này ngay lập tức
+        // Tạo UUID duy nhất cho sự kiện
         this.eventUUID = UUID.randomUUID().toString();
 
         initViews();
         setupResultLaunchers();
-
 
         // Xử lý nút back
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -107,22 +98,20 @@ public class CreateEvent extends AppCompatActivity {
             }
         });
 
-
         userId = getIntent().getIntExtra("user_id", -1);
         if (userId == -1) {
             finish();
             return;
         }
-        // Khởi tạo ViewModel
+
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
-        // Cài đặt các listeners
         setupDatePickers();
         setupCategoryDropdown();
 
         imgBanner.setOnClickListener(v -> selectImageFromGallery());
         btnSelectVideo.setOnClickListener(v -> selectVideoFromGallery());
-        btnNext.setOnClickListener(v -> validateAndCreateEvent());
+        btnNext.setOnClickListener(v -> validateAndSaveEvent()); // Đổi tên hàm
         btnBack.setOnClickListener(v -> showCancelConfirmationDialog());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -139,13 +128,6 @@ public class CreateEvent extends AppCompatActivity {
                         selectedBannerUri = uri;
                         imgBanner.setImageURI(selectedBannerUri);
                         tvUploadHint.setVisibility(View.GONE);
-                        // Gọi phương thức tải lên banner sau khi chọn ảnh
-                        // Cần có người dùng đăng nhập Firebase Auth để tải lên Storage
-                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                            uploadBannerAndCreateEvent();
-                        } else {
-                            showSnackbar("Vui lòng đăng nhập để tải ảnh banner lên Firebase.", true);
-                        }
                     }
                 });
 
@@ -153,18 +135,16 @@ public class CreateEvent extends AppCompatActivity {
                 uri -> {
                     if (uri != null) {
                         selectedVideoUri = uri;
-                        videoViewEvent.setVisibility(View.VISIBLE); // Hiển thị VideoView
+                        videoViewEvent.setVisibility(View.VISIBLE);
                         videoViewEvent.setVideoURI(selectedVideoUri);
 
-                        // Thêm điều khiển (play/pause)
                         MediaController mediaController = new MediaController(this);
                         videoViewEvent.setMediaController(mediaController);
                         mediaController.setAnchorView(videoViewEvent);
-                        videoViewEvent.start(); // Tự động phát
+                        videoViewEvent.start();
                     }
                 });
     }
-
 
     private void initViews() {
         rootView = findViewById(R.id.main);
@@ -182,39 +162,23 @@ public class CreateEvent extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_create_event_submit);
         btnBack = findViewById(R.id.btn_back);
 
-        // View upload banner and video
-        pbBannerUpload = findViewById(R.id.pb_banner_upload);
-        // Đã loại bỏ pbVideoUpload
-        // Đã loại bỏ tvVideoUploadStatus
+        // Tận dụng lại ProgressBar cũ, bạn có thể đổi ID trong XML nếu muốn
+        pbProcessing = findViewById(R.id.pb_banner_upload);
         videoViewEvent = findViewById(R.id.video_view_event);
 
-        // Views cho validation
         inputLayoutEventName = findViewById(R.id.input_event_name);
         inputLayoutLocation = findViewById(R.id.input_location);
         inputLayoutDate = findViewById(R.id.input_date);
     }
 
-    ///Hiển thị cảnh báo xác nhận khi người dùng muốn Hủy
-
     private void showCancelConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Hủy tạo sự kiện?")
-                .setMessage("Bạn có chắc chắn muốn hủy? Mọi hình ảnh đã tải lên Firebase sẽ bị xóa.") // Cập nhật message
-                .setPositiveButton("Hủy bỏ", (dialog, which) -> deleteUploadedFilesAndFinish())
-                .setNegativeButton("Tiếp tục", null)
-                .setIcon(R.drawable.warning) // Cần có icon @drawable/warning
+                .setMessage("Bạn có chắc chắn muốn hủy? Dữ liệu chưa lưu sẽ bị mất.")
+                .setPositiveButton("Thoát", (dialog, which) -> finish())
+                .setNegativeButton("Ở lại", null)
+                .setIcon(R.drawable.warning)
                 .show();
-    }
-
-    //Gửi lệnh xóa các file đã tải lên Firebase và đóng Activity
-    private void deleteUploadedFilesAndFinish() {
-        // Chỉ xóa banner nếu đã chọn và người dùng đã đăng nhập Firebase Auth
-        if (selectedBannerUri != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
-            StorageReference bannerRef = storageRef.child("events/" + this.eventUUID + "/banner.jpg");
-            bannerRef.delete().addOnFailureListener(e -> Log.w("CreateEvent", "Không thể xóa banner mồ côi: ", e));
-        }
-        // Video vẫn lưu cục bộ, không cần xóa từ Firebase
-        finish();
     }
 
     private void showSnackbar(String message, boolean isError) {
@@ -226,29 +190,18 @@ public class CreateEvent extends AppCompatActivity {
     }
 
     private void selectImageFromGallery() {
-        Log.d("CreateEvent", "Current Firebase User: " + (FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "null"));
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            Toast.makeText(this, "Vui lòng đăng nhập để tải ảnh banner lên.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         imagePickerLauncher.launch("image/*");
     }
 
     private void selectVideoFromGallery() {
-        // Video giờ được xử lý cục bộ, không cần Firebase Auth
         videoPickerLauncher.launch("video/*");
     }
 
-
-    // Phương thức startVideoUpload() vẫn bị loại bỏ
-
-    //Kiểm tra các trường nhập liệu trước khi tạo sự kiện
-    private void validateAndCreateEvent() {
+    private void validateAndSaveEvent() {
         inputLayoutEventName.setError(null);
         inputLayoutLocation.setError(null);
         inputLayoutDate.setError(null);
 
-        // Lấy dữ liệu
         String name = String.valueOf(inputEventName.getText()).trim();
         String location = String.valueOf(inputLocation.getText()).trim();
         String startDate = String.valueOf(inputDate.getText()).trim();
@@ -270,64 +223,71 @@ public class CreateEvent extends AppCompatActivity {
             showSnackbar("Vui lòng chọn ảnh banner", true);
             hasError = true;
         }
-        // Kiểm tra đăng nhập trước khi tải lên banner và tạo sự kiện
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            Toast.makeText(this, "Vui lòng đăng nhập để tạo sự kiện và tải ảnh lên.", Toast.LENGTH_LONG).show();
-            hasError = true;
-        }
 
-        if (hasError) {
-            return; // Dừng lại nếu có lỗi
-        }
+        if (hasError) return;
 
-        // Vô hiệu hóa nút và bắt đầu upload banner
+        // Bắt đầu lưu file và tạo sự kiện
         btnNext.setEnabled(false);
-        btnNext.setText("Đang xử lý...");
-        uploadBannerAndCreateEvent(); // Gọi phương thức upload banner
+        btnNext.setText("Đang lưu dữ liệu...");
+        pbProcessing.setVisibility(View.VISIBLE);
+
+        // Xử lý lưu file trong background thread để tránh lag UI
+        Executors.newSingleThreadExecutor().execute(() -> {
+            String localBannerPath = saveFileToInternalStorage(selectedBannerUri, "banner_" + eventUUID + ".jpg");
+            String localVideoPath = "";
+
+            if (selectedVideoUri != null) {
+                // Lưu video nếu có
+                localVideoPath = saveFileToInternalStorage(selectedVideoUri, "video_" + eventUUID + ".mp4");
+            }
+
+            String finalLocalVideoPath = localVideoPath;
+
+            // Quay lại UI thread để lưu vào DB
+            runOnUiThread(() -> {
+                createEventInDb(localBannerPath, finalLocalVideoPath);
+            });
+        });
     }
 
-    private void uploadBannerAndCreateEvent() {
-        // Đã kiểm tra đăng nhập trong validateAndCreateEvent(), nhưng thêm lại cho an toàn
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            showSnackbar("Lỗi: Người dùng chưa đăng nhập.", true);
+    /**
+     * Hàm copy file từ Uri vào Internal Storage của ứng dụng
+     */
+    private String saveFileToInternalStorage(Uri uri, String fileName) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            File directory = new File(getFilesDir(), "event_media"); // Tạo thư mục con
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            File file = new File(directory, fileName);
+            OutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((inputStream != null) && ((length = inputStream.read(buffer)) > 0)) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            if (inputStream != null) inputStream.close();
+            outputStream.close();
+
+            return file.getAbsolutePath(); // Trả về đường dẫn tuyệt đối
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void createEventInDb(String bannerPath, String videoPath) {
+        if (bannerPath == null) {
+            showSnackbar("Lỗi khi lưu ảnh banner.", true);
             btnNext.setEnabled(true);
-            btnNext.setText("Tạo Sự Kiện");
+            btnNext.setText("Tiếp Tục");
+            pbProcessing.setVisibility(View.GONE);
             return;
         }
 
-        pbBannerUpload.setVisibility(View.VISIBLE);
-        pbBannerUpload.setProgress(0);
-        StorageReference bannerRef = storageRef.child("events/" + this.eventUUID + "/banner.jpg");
-
-        bannerRef.putFile(selectedBannerUri)
-                .addOnProgressListener(snapshot -> {
-                    double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                    pbBannerUpload.setProgress((int) progress);
-                    tvUploadHint.setText(String.format(Locale.getDefault(), "Đang tải lên banner... %.0f%%", progress));
-                })
-                .continueWithTask(task -> {
-                    if (!task.isSuccessful()) throw Objects.requireNonNull(task.getException());
-                    return bannerRef.getDownloadUrl();
-                })
-                .addOnSuccessListener(bannerUri -> {
-                    pbBannerUpload.setVisibility(View.GONE);
-                    tvUploadHint.setText("Tải lên banner thành công!");
-                    uploadedBannerUrl = bannerUri.toString(); // Lưu URL banner
-                    createEvent(); // Tạo sự kiện
-                })
-                .addOnFailureListener(e -> {
-                    showSnackbar("Upload banner thất bại: " + e.getMessage(), true);
-                    pbBannerUpload.setVisibility(View.GONE);
-                    tvUploadHint.setText("Tải lên banner thất bại.");
-                    btnNext.setEnabled(true);
-                    btnNext.setText("Tạo Sự Kiện");
-                });
-    }
-
-    // Phương thức showUploadedVideo() đã được di chuyển vào setupResultLaunchers
-
-    //Tạo đối tượng Event và lưu vào Room
-    private void createEvent() {
         String name = String.valueOf(inputEventName.getText()).trim();
         String desc = String.valueOf(inputDescription.getText()).trim();
         String category = String.valueOf(inputCategory.getText()).trim();
@@ -335,64 +295,55 @@ public class CreateEvent extends AppCompatActivity {
         String startDate = String.valueOf(inputDate.getText()).trim() + " " + String.valueOf(inputTime.getText()).trim();
         String endDate = String.valueOf(inputDateEnd.getText()).trim() + " " + String.valueOf(inputTimeEnd.getText()).trim();
 
-        // Lấy URL từ biến class (Firebase URL)
-        String bannerUrlToSave = (uploadedBannerUrl != null) ? uploadedBannerUrl : "";
-        // Lấy URI từ biến selectedVideoUri.toString() (video cục bộ)
-        String videoUrlToSave = (selectedVideoUri != null) ? selectedVideoUri.toString() : "";
-
-        // Dùng eventUUID từ biến class
-        Event event = new Event(this.eventUUID, userId, name, bannerUrlToSave, videoUrlToSave, desc, category, location, startDate,
+        // Tạo đối tượng Event với đường dẫn file cục bộ
+        Event event = new Event(
+                this.eventUUID,
+                userId,
+                name,
+                bannerPath, // Lưu đường dẫn file cục bộ
+                videoPath,  // Lưu đường dẫn file cục bộ (nếu có)
+                desc,
+                category,
+                location,
+                startDate,
                 endDate,
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime()),
-                null, false // Mặc định isPromoted là false
+                null,
+                false
         );
 
         eventViewModel.insert(event, newId -> runOnUiThread(() -> {
-            // Gửi thông báo cho followers
+            pbProcessing.setVisibility(View.GONE);
             notifyFollowers(newId, userId, name);
 
-            // Chuyển sang Activity tiếp theo (CreateGuest)
             Intent intent = new Intent(CreateEvent.this, CreateGuest.class);
             intent.putExtra("room_id", newId);
             startActivity(intent);
-
             finish();
         }));
     }
 
-    // Sau khi insert Event thành công:
     private void notifyFollowers(long eventId, long organizerId, String eventName) {
         new Thread(() -> {
-            // 1. Lấy danh sách user đang follow organizer này
-            // Giả sử bạn có FollowedArtistDAO và phương thức getFollowerIdsByOrganizer
-            // List<Long> followerIds = db.followedArtistDAO().getFollowerIdsByOrganizer(organizerId);
-
-            // TODO: Bỏ comment dòng trên và xóa dòng dưới khi có DAO
+            // Logic thông báo giữ nguyên (đang chờ DAO)
             List<Long> followerIds = new ArrayList<>();
-
+            // List<Long> followerIds = db.followedArtistDAO().getFollowerIdsByOrganizer(organizerId);
 
             List<Notification> notifications = new ArrayList<>();
             String content = "Nghệ sĩ bạn theo dõi vừa tạo sự kiện mới: " + eventName;
 
             for (Long followerId : followerIds) {
                 Notification noti = new Notification();
-                //noti.setUserId(followerId);
+                // noti.setUserId(followerId);
                 noti.setTitle("Sự kiện mới!");
                 noti.setMessage(content);
-                //noti.setEventId(eventId);
-                //noti.setCreatedAt(System.currentTimeMillis());
+                // noti.setEventId(eventId);
                 noti.setRead(false);
                 notifications.add(noti);
             }
-
-            // 2. Lưu vào DB thông báo
-            if (!notifications.isEmpty()) {
-                // Giả sử bạn có NotificationDAO và phương thức insertAll
-                // db.notificationDAO().insertAll(notifications);
-            }
+            // if (!notifications.isEmpty()) db.notificationDAO().insertAll(notifications);
         }).start();
     }
-
 
     private void setupDatePickers() {
         inputDate.setOnClickListener(v -> showDatePicker(startCalendar, inputDate));
